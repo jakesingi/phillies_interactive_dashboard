@@ -59,6 +59,7 @@ corr2 = df2['baseline_spin'].corr(df2['new_tech_spin'])
 df2['abs_errors'] = np.abs(df2['baseline_spin'] - df2['new_tech_spin'])
 MAE = np.mean(df2['abs_errors'])
 percent_in_range = sum((df2['new_tech_spin'] >= df2['baseline_spin'] - MAE) & (df2['new_tech_spin'] <= df2['baseline_spin'] + MAE))/df2.shape[0]
+avg_miss = np.mean(df2.loc[df2['abs_errors'] > MAE, 'abs_errors'])
 
 app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
     
@@ -118,14 +119,21 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
         }
     ),
     html.H3(
-        children=f"MAE: {np.round(MAE, 4)}",
+        children=f"MAE: {np.round(MAE, 4)} RPM",
         style={
             'textAlign': 'center',
             'color': colors['black']
         }
     ),
     html.H3(
-        children=f"Percent in MAE Range: {np.round(percent_in_range, 4)}",
+        children=f"Percent in MAE Range: {np.round(percent_in_range, 4)*100}%",
+        style={
+            'textAlign': 'center',
+            'color': colors['black']
+        }
+    ),
+    html.H3(
+        children=f"Average Miss: {np.round(avg_miss, 4)} RPM",
         style={
             'textAlign': 'center',
             'color': colors['black']
@@ -186,6 +194,8 @@ def parse_contents(contents, filename, date):
     df['abs_errors'] = np.abs(df['baseline_spin'] - df['new_tech_spin'])
     MAE2 = np.mean(df['abs_errors'])
     percent_in_range2 = sum((df['new_tech_spin'] >= df['baseline_spin'] - MAE2) & (df['new_tech_spin'] <= df['baseline_spin'] + MAE2))/df.shape[0]
+    avg_miss2 = np.mean(df.loc[df['abs_errors'] > MAE, 'abs_errors'])
+
     
     return html.Div([
         html.H5(filename),
@@ -225,20 +235,26 @@ def parse_contents(contents, filename, date):
         }
     ),
         html.H3(
-        children=f"MAE: {np.round(MAE2, 4)}",
+        children=f"MAE: {np.round(MAE2, 4)} RPM",
         style={
             'textAlign': 'center',
             'color': colors['black']
         }
     ),
         html.H3(
-        children=f"Percent in MAE Range: {np.round(percent_in_range2, 4)}",
+        children=f"Percent in MAE Range: {np.round(percent_in_range2, 4)*100}%",
         style={
             'textAlign': 'center',
             'color': colors['black']
         }
     ),
-        
+        html.H3(
+        children=f"Average Miss: {np.round(avg_miss2, 4)} RPM",
+        style={
+            'textAlign': 'center',
+            'color': colors['black']
+        }
+    ),
         
 
         html.Hr(),  # horizontal line
