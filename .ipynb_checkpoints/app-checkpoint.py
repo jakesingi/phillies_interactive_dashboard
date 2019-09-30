@@ -82,7 +82,7 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
     The plot below is a scatterplot of the original data given in `spin_evaluation.csv`. We can see all of the overestimation and underestimation 
     problems I mentioned in my initial report. The correlation given is the correlation between the baseline technology's readings and the
     new technology's readings. This could be useful if, for example, the new technology readings suddenly become very closely correlated with the baseline readings. Then, one could apply a small linear transformation to the new tech readings to get to the appropriate baseline readings. The "Percent in MAE Range" is the proportion of the new technology's readings that fall within the baseline reading
-    plus/minus the MAE. This metric is the most important one in determining the reliability of the new technology. For example, a reading of 81%, which we see in the default plot, implies that on average, for every 5 pitches measured by the new technology, about 1 will differ substantially (plus/minus 61.5 RPM) from the measurement given by the baseline technology.
+    plus/minus the MAE. This metric is the most important one in determining the reliability of the new technology. For example, a reading of 81%, which we see in the default plot, implies that on average, for every 5 pitches measured by the new technology, about 1 will differ substantially (more than 61.5 RPM) from the measurement given by the baseline technology.
     '''),
     
     dcc.Graph(
