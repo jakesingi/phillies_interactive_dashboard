@@ -80,8 +80,8 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
 
     The plot below is a scatterplot of the original data given in `spin_evaluation.csv`. We can see all of the overestimation and underestimation 
     problems I mentioned in my initial report. The correlation given is the correlation between the baseline technology's readings and the
-    new technology's readings. The "Percent in MAE Range" is the proportion of the new technology's readings that fall within the baseline reading
-    plus/minus the MAE.
+    new technology's readings. This could be useful if, for example, the new technology readings suddenly become very closely correlated with the baseline readings. Then, one could apply a small linear transformation to the new tech readings to get to the appropriate baseline readings. The "Percent in MAE Range" is the proportion of the new technology's readings that fall within the baseline reading
+    plus/minus the MAE. This metric is the most important one in determining the reliability of the new technology. For example, a reading of 81%, which we see in the default plot, implies that on average, for every 5 pitches measured by the new technology, about 1 will differ substantially (plus/minus 61.5 RPM) from the measurement given by the baseline technology.
     '''),
     
     dcc.Graph(
@@ -117,6 +117,13 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
         }
     ),
     html.H3(
+        children=f"MAE: {np.round(MAE, 4)}",
+        style={
+            'textAlign': 'center',
+            'color': colors['black']
+        }
+    ),
+    html.H3(
         children=f"Percent in MAE Range: {np.round(percent_in_range, 4)}",
         style={
             'textAlign': 'center',
@@ -129,7 +136,7 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
     #### Uploading New Data
 
     Upload a csv file here in the same format as the original `spin_evaluations.csv` in order to make comparisons. A scatterplot will be generated
-    along with the correlation and "Percent in MAE Range" statistics described above.
+    along with the correlation, MAE, and "Percent in MAE Range" statistics described above. Remember that you can upload multiple files!
     '''),
     
     
@@ -177,7 +184,7 @@ def parse_contents(contents, filename, date):
     corr = df.iloc[:, 2].corr(df.iloc[:, 1])
     df['abs_errors'] = np.abs(df['baseline_spin'] - df['new_tech_spin'])
     MAE2 = np.mean(df['abs_errors'])
-    percent_in_range2 = sum((df['new_tech_spin'] >= df['baseline_spin'] - MAE) & (df['new_tech_spin'] <= df['baseline_spin'] + MAE))/df.shape[0]
+    percent_in_range2 = sum((df['new_tech_spin'] >= df['baseline_spin'] - MAE2) & (df['new_tech_spin'] <= df['baseline_spin'] + MAE2))/df.shape[0]
     
     return html.Div([
         html.H5(filename),
@@ -211,6 +218,13 @@ def parse_contents(contents, filename, date):
         ),
         html.H3(
         children=f"Correlation: {np.round(corr, 4)}",
+        style={
+            'textAlign': 'center',
+            'color': colors['black']
+        }
+    ),
+        html.H3(
+        children=f"MAE: {np.round(MAE2, 4)}",
         style={
             'textAlign': 'center',
             'color': colors['black']
