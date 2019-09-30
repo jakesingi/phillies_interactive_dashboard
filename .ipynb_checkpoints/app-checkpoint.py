@@ -11,6 +11,12 @@ import plotly.graph_objs as go
 import numpy as np
 import dash_table
 
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+
+
 df2 = pd.read_csv("spin_evaluation.csv").iloc[:, 1:3]
 columns = [i for i in df2.columns.values]
 
@@ -25,13 +31,6 @@ def generate_table(dataframe, max_rows=10):
         ]) for i in range(min(len(dataframe), max_rows))]
     )
 
-
-
-
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 colors = {
     'background': '#111111',
