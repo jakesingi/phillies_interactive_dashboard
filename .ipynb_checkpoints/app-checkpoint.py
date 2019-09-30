@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# link to heroku!!
+
+# How I made this dash: https://dash.plot.ly/
+
 # imports
 import base64
 import datetime
@@ -85,6 +87,8 @@ app.layout = html.Div(style={'backgroundColor': colors['white']}, children=[
     new technology's readings. This could be useful if, for example, the new technology readings suddenly become very closely correlated with the baseline readings. Then, one could apply a small linear transformation to the new tech readings to get to the appropriate baseline readings. The "Percent in MAE Range" is the proportion of the new technology's readings that fall within the baseline reading
     plus/minus the MAE. For example, a reading of 81%, which we see in the default plot, implies that on average, for every 5 pitches measured by the new technology, about 1 will differ substantially (by more than 61.5 RPM) from the measurement given by the baseline technology. Lastly, "Average Miss" tells us the average RPM of pitches that fall outside the MAE bounds. 232 RPM, which we see in the default plot, is a lot (see my report for why).
     '''),
+    
+    # How I made this plot: https://plot.ly/python/line-and-scatter/#simple-scatter-plot
     
     dcc.Graph(
         id='jake',
@@ -279,12 +283,6 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
-    
-    
-    
-
-    
-    
 
 if __name__ == '__main__':
     app.run_server(debug=True)
