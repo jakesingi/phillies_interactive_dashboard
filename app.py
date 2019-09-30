@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# link to github
+# link to heroku!
 # imports
 import base64
 import datetime
